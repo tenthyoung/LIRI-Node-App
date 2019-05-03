@@ -11,19 +11,19 @@ var fileSystem = require('fs');
 moment().format();
 
 const COMMAND = process.argv[2];
-const DETAILS = process.argv.slice(3).join(" ");
+const RANDOM_DETAIL = process.argv.slice(3).join(" ");
 
 switch (COMMAND) {
     case "concert-this":
-        findConcerts(DETAILS)
+        findConcerts(RANDOM_DETAIL)
         break;
 
     case "spotify-this-song":
-        findSong(DETAILS);
+        findSong(RANDOM_DETAIL);
         break;
 
     case "movie-this":
-        findMovie(DETAILS);
+        findMovie(RANDOM_DETAIL);
         break;
 
     case "do-what-it-says":
@@ -158,7 +158,7 @@ function displayMovie(movieObj) {
 
 function readRandomTextFile() {
 
-    fs.readFile("random.txt", "utf8", function(error, file) {
+    fileSystem.readFile("random.txt", "utf8", function(error, file) {
         
         // If the code experiences any errors it will log the error to the console.
         if (error) {
@@ -169,10 +169,32 @@ function readRandomTextFile() {
         console.log(file);
         
         // Then split it by commas (to make it more readable)
-        var dataArr = file.split(",");
+        let dataArr = file.split(",");
         
         // We will then re-display the content as an array for later use.
-        console.log(dataArr);
+        const RANDOM_COMMAND = dataArr[0];
+        const RANDOM_DETAIL = dataArr[1];
+
+        switch (RANDOM_COMMAND) {
+            case "concert-this":
+                findConcerts(RANDOM_DETAIL)
+                break;
+        
+            case "spotify-this-song":
+                findSong(RANDOM_DETAIL);
+                break;
+        
+            case "movie-this":
+                findMovie(RANDOM_DETAIL);
+                break;
+        
+            case "do-what-it-says":
+                console.log("Infinite loop! Don't do that you crazy person! >:P")
+                break;
+        
+            default:
+                console.log("random.txt has some whacky text... Change the file contents?");
+        }
         
     });
     
