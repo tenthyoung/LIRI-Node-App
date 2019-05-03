@@ -11,19 +11,19 @@ var fileSystem = require('fs');
 moment().format();
 
 const COMMAND = process.argv[2];
-const RANDOM_DETAIL = process.argv.slice(3).join(" ");
+const DETAILS = process.argv.slice(3).join(" ");
 
 switch (COMMAND) {
     case "concert-this":
-        findConcerts(RANDOM_DETAIL)
+        findConcerts(DETAILS)
         break;
 
     case "spotify-this-song":
-        findSong(RANDOM_DETAIL);
+        findSong(DETAILS);
         break;
 
     case "movie-this":
-        findMovie(RANDOM_DETAIL);
+        findMovie(DETAILS);
         break;
 
     case "do-what-it-says":
@@ -95,16 +95,14 @@ function findSong(songName) {
             console.log("Sorry, I can't find what you were looking for, but check this song out?")
             findSong('The Sign by Ace of Base');
             return;
-        }
-     
-        console.table(
-            {
-                'Song Title': data.tracks.items[0].name,
-                'Artist(s)': data.tracks.items[0].artists[0].name,
-                Album: data.tracks.items[0].album.name,
-                Preview: data.tracks.items[0].preview_QUERY_URL
-            }
-        );
+        }        
+
+        console.table({
+            'Song Title': data.tracks.items[0].name,
+            'Artist(s)': data.tracks.items[0].artists[0].name,
+            Album: data.tracks.items[0].album.name,
+            Preview: data.tracks.items[0].preview_url
+        });
         // Do something with 'data'
     });
 }
